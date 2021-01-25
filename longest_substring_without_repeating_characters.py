@@ -1,19 +1,20 @@
 def longest_non_repeating_substring(string: str) -> int:
     """
-    O(n^2), can maybe be improved by substring which supports
-    faster search, append, and delete (len is easy to keep track of)
+    On average this should be linear bc of hash table stuff
+    but sets are weird
     """
-    substring = []
+    substring_set = set()
     lengths = []
-    for c in string:
-        try:
-            ix = substring.index(c)
-            lengths.append(len(substring))
-            del substring[:ix+1]
-            substring.append(c)
-        except ValueError:
-            substring.append(c)
-    lengths.append(len(substring))
+    i = 0
+    j = 0
+    while j < len(string):
+        while string[j] in substring_set:
+            substring_set -= {string[i]}
+            i += 1
+        substring_set.add(string[j])
+        j += 1
+        if j - i > max_len:
+            max_len = j - i
         
-    return max(lengths)
+    return max_len
 
