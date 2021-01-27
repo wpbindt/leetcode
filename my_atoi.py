@@ -6,6 +6,10 @@ DIGITS = {
     for a in range(10)
 }
 
+MAX_VALUE = {
+    1: 2 ** 31 - 1,
+    -1: 2 ** 31
+}
 
 def my_atoi(s: str) -> int:
     for ix, c in enumerate(s):
@@ -30,9 +34,13 @@ def my_atoi(s: str) -> int:
 
     output = 0
     while digits_queue:
-        output = 10 * output + digits_queue.pop()
+        next_digit = digits_queue.pop()
+        if next_digit / 10 > MAX_VALUE[sign] / 10 - output:
+            return sign * MAX_VALUE[sign]
 
-    return sign * output
+        output = 10 * output + next_digit
+
+    return sign * min(MAX_VALUE[sign], output)
 
 
 assert my_atoi('456') == 456
@@ -48,4 +56,5 @@ assert my_atoi('   1asdf') == 1
 assert my_atoi('1 2') == 1
 assert my_atoi('    ') == 0
 assert my_atoi('    +') == 0
+assert my_atoi('2147483648') == 2147483647
 
