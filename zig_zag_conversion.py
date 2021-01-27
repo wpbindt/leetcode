@@ -1,4 +1,7 @@
 def convert(s: str, num_rows:int) -> str:
+    if num_rows == 1:
+        return s
+
     rows = [[] for _ in range(num_rows)]
     for ix, c in enumerate(s):
         ix_mod = ix % (2*num_rows - 2)
@@ -10,4 +13,5 @@ def convert(s: str, num_rows:int) -> str:
     return ''.join(''.join(row) for row in rows)
 
 assert convert('PAYPALISHIRING', 3) == 'PAHNAPLSIIGYIR'
+assert convert('PAYPALISHIRING', 1) == 'PAYPALISHIRING'
 
