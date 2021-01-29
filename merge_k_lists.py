@@ -1,4 +1,5 @@
 from __future__ import annotations
+import heapq
 from typing import Iterator, List, Optional
 
 # # # # Brute force
@@ -17,6 +18,7 @@ from typing import Iterator, List, Optional
 # take minimal list out, take its head off, and put it in the output list O(log(k))
 # put the decapitated list back in the priority queue O(log(k))
 # --> O(N log(k)) ^^
+# NB: priority queues are implemented in the std module "heapq"
 
 
 class ListNode:
