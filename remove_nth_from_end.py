@@ -17,13 +17,14 @@ def remove_from_end(head: ListNode, n: int) -> ListNode:
     if tail is None:
         return head.next
 
-    node_to_remove = head
+    tail = tail.next
+
+    node_before_removed = head
     while tail is not None:
-        preceding_node = node_to_remove
-        node_to_remove = node_to_remove.next
+        node_before_removed = node_before_removed.next
         tail = tail.next
 
-    preceding_node.next = node_to_remove.next
+    node_before_removed.next = node_before_removed.next.next
 
     return head
 
@@ -45,6 +46,16 @@ mid = ListNode(4, tail)
 head = ListNode(1, mid)
 tail_removed = remove_from_end(head, 1)
 assert list(tail_removed) == [1,4]
+
+tail = ListNode(3, None)
+head = ListNode(1, tail)
+tail_removed = remove_from_end(head, 1)
+assert list(tail_removed) == [1]
+
+tail = ListNode(3, None)
+head = ListNode(1, tail)
+head_removed = remove_from_end(head, 2)
+assert list(head_removed) == [3]
 
 head = ListNode(3, None)
 assert remove_from_end(head, 1) is None
