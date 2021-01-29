@@ -1,12 +1,4 @@
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-
-    def __iter__(self):
-        yield self.val
-        if self.next is not None:
-            yield from self.next
+from list_node import ListNode
 
 
 def remove_from_end(head: ListNode, n: int) -> ListNode:

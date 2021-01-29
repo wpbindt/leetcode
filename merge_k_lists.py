@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from heapq import heapify, heappop, heappush
 from typing import Iterator, List, Optional
 
+from list_node import ListNode
+
 # # # # Brute force
 # find minimum head val in k lists (O(k)) and put it in list
 # do this untill all nodes are gone
@@ -19,26 +21,6 @@ from typing import Iterator, List, Optional
 # take minimal list out, take its head off, and put it in the output list O(log(k))
 # put the decapitated list back in the priority queue O(log(k))
 # --> O(N log(k)) ^^
-
-
-class ListNode:
-    def __init__(self, val: int = 0, next: Optional[ListNode] = None) -> None:
-        self.val = val
-        self.next = next
-
-    def __iter__(self) -> Iterator[int]:
-        yield self.val
-        if self.next is not None:
-            yield from self.next
-
-    def __repr__(self) -> str:
-        return str(list(self))
-
-    @classmethod
-    def from_list(cls, seq: List[int]) -> Optional[ListNode]:
-        if not seq:
-            return None
-        return cls(seq[0], cls.from_list(seq[1:]))
 
 
 @dataclass
