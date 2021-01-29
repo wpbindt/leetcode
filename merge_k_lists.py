@@ -51,6 +51,7 @@ class ComparableListNode:
     def __repr__(self) -> str:
         return str(self.list_node)
 
+
 def merge(lists: List[Optional[ListNode]]) -> Optional[ListNode]:
     comparable_lists = [
         ComparableListNode(list_node)
