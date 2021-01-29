@@ -30,5 +30,5 @@ assert list(merge([head1, head1])) == [1, 1, 2, 2, 5, 5]
 head2 = ListNode.from_list([1,3])
 assert list(merge([head1, head2])) == [1, 1, 2, 3, 5]
 assert list(merge([head1.next.next, head2])) == [1, 3, 5]
-assert list(merge([head1, head2, head1.next]) = [1, 1, 2, 2, 3, 5, 5]
+assert list(merge([head1, head2, head1.next])) == [1, 1, 2, 2, 3, 5, 5]
 
