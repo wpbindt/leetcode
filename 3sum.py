@@ -1,4 +1,5 @@
 from bisect import bisect_left
+from itertools import groupby
 from typing import List
 
 
@@ -9,6 +10,16 @@ def bin_search(seq: List[int], item: int) -> int:
             return res
 
     return -1
+
+
+def drop_duplicates(enum):
+    delete_stack = []
+    for ix, val in enumerate(enum[1:], 1):
+        if enum[ix - 1][1] == val[1]:
+            delete_stack.append(ix)
+
+    while delete_stack:
+        del enum[delete_stack.pop()]
 
 
 def three_sum(nums: List[int]) -> List[List[int]]:
@@ -23,7 +34,9 @@ def three_sum(nums: List[int]) -> List[List[int]]:
         except IndexError:
             ...
 
-    for ix, num in enumerate(nums):
+    enum = list(enumerate(nums))
+    drop_duplicates(enum)
+    for ix, num in enum:
         if num == 0:
             continue
 
@@ -35,15 +48,15 @@ def three_sum(nums: List[int]) -> List[List[int]]:
             elif nums[left] + num + nums[right] < 0 or left == ix:
                 left += 1
             else:
-                output.append([nums[left], num, nums[right]])
+                output.append([num, nums[left], nums[right]])
                 left += 1
                 right -= 1
 
     return output
 
 
+assert three_sum([-4,-1,-1,0,1,2]) == [[-1,-1,2],[-1,0,1]]
 assert three_sum([0,0,0,0,0,0,0,0,0,0]) == [[0,0,0]]
-
 res = three_sum([1, 1, -2, 1, 0, 2])
 assert len(res) == 2
 assert {1, -2} in [set(x) for x in res] 
