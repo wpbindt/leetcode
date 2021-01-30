@@ -64,4 +64,4 @@ assert game_24([24, 0, 0, 0])
 assert game_24([0, 0, 12, 12])
 assert not game_24([0, 0, 0, 12])
 assert not game_24([0, 0, 0, 0])
-
+assert game_24([3, 3, 8, 8])
