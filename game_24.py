@@ -1,5 +1,6 @@
 from __future__ import annotations
 from itertools import permutations, product
+from math import isclose
 from operator import add, mul, sub, truediv
 from typing import Callable, Iterator, List, Optional
 
@@ -47,10 +48,11 @@ def game_24(nums: List[int]) -> bool:
         for operator_combo in product(OPERATORS, OPERATORS, OPERATORS):
             for tree in FOREST:
                 try:
-                    if tree(
+                    outcome = tree(
                         operators=iter(operator_combo),
                         nums=iter(nums_permutation)
-                    ) == 24:
+                    )
+                    if isclose(outcome, 24):
                         return True
                 except ZeroDivisionError:
                     pass
@@ -65,3 +67,4 @@ assert game_24([0, 0, 12, 12])
 assert not game_24([0, 0, 0, 12])
 assert not game_24([0, 0, 0, 0])
 assert game_24([3, 3, 8, 8])
+
