@@ -1,3 +1,6 @@
+from functools import lru_cache
+from itertools import product
+import time
 from typing import List
 
 # For n pairs: there are n different possibs:
@@ -11,14 +14,51 @@ from typing import List
 # programming
 
 
+@lru_cache(maxsize=None)  # this already helps a lot, but there's still O(3^n) function calls
 def generate_parens(n: int) -> List[str]:
-    ...
+    if n == 0:
+        return ['']
+
+    output = []
+    for k in range(n):
+        for inside, outside in product(
+            generate_parens(k), 
+            generate_parens(n - 1 - k)
+        ):
+            output.append('(' + inside + ')' + outside)
+
+    return output
 
 
-assert generate_parens(0) == [0]
-assert generate_parens(1) == ['()']
-assert set(generate_parens(2)) == {'()()', '(())'}
-assert set(generate_parens(3)) == {
-    '((()))', '(())()', '()(())', '()()()', '(()())'
-}
+def generate_parens_non_recursive(n: int) -> List[str]:
+    """
+    Terrible running time: inner loop is O(catalan_n)
+    """
+    possible_parens_list = [[] for _ in range(n+1)]
+    possible_parens_list[0].append('')
+
+    for m in range(1, n + 1):
+        for k in range(m):
+            for inside, outside in product(
+                possible_parens_list[k],
+                possible_parens_list[m - 1 - k]
+            ):
+                possible_parens_list[m].append('(' + inside + ')' + outside)
+
+    return possible_parens_list[n]
+
+
+for solution in {generate_parens, generate_parens_non_recursive}:
+    assert solution(0) == ['']
+    assert solution(1) == ['()']
+    assert set(solution(2)) == {'()()', '(())'}
+    assert set(solution(3)) == {
+        '()()()', '()(())', '(())()', '(()())', '((()))'
+    }
+
+start = time.time()
+n = 15
+generate_parens_non_recursive(n)
+end = time.time()
+print(f'Takes {end - start} seconds to generate expressions with {n} paren pairs')
 
