@@ -48,7 +48,21 @@ def generate_parens_non_recursive(n: int) -> List[str]:
     return possible_parens_list[n]
 
 
-for solution in {generate_parens, generate_parens_non_recursive}:
+def generate_parentheses(n: int) -> List[str]:
+    if n == 0:
+        return ['']
+    if n == 1:
+        return ['()']
+
+    output = set()
+    for shorter_expression in generate_parentheses(n - 1):
+        for ix in range(2*(n - 1)):
+            output.add(shorter_expression[:ix] + '()' + shorter_expression[ix:])
+
+    return list(output)
+
+
+for solution in {generate_parens, generate_parens_non_recursive, generate_parentheses}:
     assert solution(0) == ['']
     assert solution(1) == ['()']
     assert set(solution(2)) == {'()()', '(())'}
@@ -57,8 +71,8 @@ for solution in {generate_parens, generate_parens_non_recursive}:
     }
 
 start = time.time()
-n = 15
-generate_parens_non_recursive(n)
+n = 13
+generate_parentheses(n)
 end = time.time()
 print(f'Takes {end - start} seconds to generate expressions with {n} paren pairs')
 
