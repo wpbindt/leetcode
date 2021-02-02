@@ -7,7 +7,7 @@ from typing import Callable, Iterator, List, Optional
 
 class Tree:
     def __init__(
-        self, 
+        self,
         left: Optional[Tree] = None,
         right: Optional[Tree] = None
     ) -> None:
@@ -15,8 +15,8 @@ class Tree:
         self.right = right
 
     def __call__(
-        self, 
-        operators: Iterator[Callable[[int, int], int]], 
+        self,
+        operators: Iterator[Callable[[int, int], int]],
         nums: Iterator[int]
     ) -> int:
         if self.left is None:
