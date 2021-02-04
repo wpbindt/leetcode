@@ -5,14 +5,10 @@ from typing import List, Optional
 def bin_search_slice(
     seq: List[int],
     item: int,
-    lo: int = 0, 
-    hi: Optional[int] = None
+    lo: int = 0,
 ) -> int:
-    if hi is None:
-        hi = len(seq)
-
-    result_ix = bisect_left(seq, item, lo=lo, hi=hi)
-    if result_ix != hi:
+    result_ix = bisect_left(seq, item, lo=lo)
+    if result_ix != len(seq):
         if seq[result_ix] == item:
             return result_ix
     return -1
