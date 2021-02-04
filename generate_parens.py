@@ -3,18 +3,8 @@ from itertools import product
 import time
 from typing import List
 
-# For n pairs: there are n different possibs:
-# first paren is paired with character in pos 1
-# first paren is paired with character 3
-# ...
-# first paren is paired with character 2n - 1
-# 
-# this leads to obv recursive solution, which has 
-# O(3^n) running time. Can be solved with dynamic
-# programming
 
-
-@lru_cache(maxsize=None)  # this already helps a lot, but there's still O(3^n) function calls
+@lru_cache(maxsize=None)
 def generate_parens(n: int) -> List[str]:
     if n == 0:
         return ['']
@@ -31,9 +21,6 @@ def generate_parens(n: int) -> List[str]:
 
 
 def generate_parens_non_recursive(n: int) -> List[str]:
-    """
-    Terrible running time: inner loop is O(catalan_n)
-    """
     possible_parens_list = [[] for _ in range(n+1)]
     possible_parens_list[0].append('')
 
