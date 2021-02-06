@@ -15,6 +15,11 @@ class ListNode:
     def __repr__(self) -> str:
         return str(list(self))
 
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, ListNode):
+            return list(self) == list(other)
+        return False
+
     @classmethod
     def from_list(cls, seq: List[int]) -> Optional[ListNode]:
         if not seq:
