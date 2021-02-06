@@ -24,7 +24,7 @@ def rotated_min(seq: List[int]) -> int:
     mid_ix = (len(seq) - 1) // 2
     mid = seq[mid_ix]
     end = seq[-1]
-    
+
     if end < start < mid:
         return mid_ix + 1 + rotated_min(seq[mid_ix + 1:])
 
