@@ -22,7 +22,7 @@ def reverse(head: Optional[ListNode]) -> Optional[ListNode]:
     return second
 
 
-def reverse_group(head: ListNode, k: int) -> ListNode:
+def reverse_group(head: ListNode, k: int) -> Optional[ListNode]:
     if head is None:
         return None
 
