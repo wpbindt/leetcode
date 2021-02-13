@@ -1,10 +1,9 @@
-from collections import Counter
 from typing import List, Set
 
 SUDOKU_SIZE = 9
 BOX_WIDTH = 3
 
-def validate_sudoku(board: List[List[int]]) -> bool:
+def validate_sudoku(board: List[List[str]]) -> bool:
     box_contents = {
         (col_ix, row_ix): set()
         for col_ix in range(0, BOX_WIDTH)
