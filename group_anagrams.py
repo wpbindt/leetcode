@@ -14,6 +14,8 @@ def serialize_to_counter(
     Immutable counter, so technically O(k).
     For our range this turns out slower than
     the other serialization.
+    Maybe there's a better way to get a
+    hashable counter.
     """
     counter = Counter(string)
     return tuple(
