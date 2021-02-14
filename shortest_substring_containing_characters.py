@@ -14,7 +14,7 @@ def shortest(string: str, targets: Set[str]) -> str:
         to_hit -= {string[left]}
     if string[right] in counter:
         counter[string[right]] += 1
-        to_hit -= {string[right]}
+        to_hit -= {string[right]}  # O(1), avg case
 
     while to_hit:
         right += 1
