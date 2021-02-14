@@ -1,8 +1,38 @@
-def group_anagrams(strs: List[str]) -> List[List[str]]:
-    """O(nk log(k)) solution, k length of string, n length of list"""
+from collections import Counter
+from string import ascii_lowercase
+from typing import Hashable
+
+
+def serialize_to_sorted(string: str) -> str:
+    """worst case O(k log(k))"""
+    return ''.join(sorted(string))
+
+def serialize_to_counter(
+    string: str
+) -> typing.Tuple[typing.Tuple[str, int]]:
+    """
+    Immutable counter, so technically O(k).
+    For our range this turns out slower than
+    the other serialization.
+    """
+    counter = Counter(string)
+    return tuple(
+        (char, counter.get(char, 0))
+        for char in ascii_lowercase
+    )
+
+def group_anagrams(
+    strs: List[str], 
+    serialize: typing.Callable[[str], typing.Hashable]
+) -> List[List[str]]:
+    """
+    avgerage time nk log(k) or nk solution, 
+    depending on the chosen serialization
+    k length of string, n length of list
+    """
     groups = {}
     for string in strs:
-        group = ''.join(sorted(string))
+        group = serialize(string)
         if group in groups:
             groups[group].append(string)
         else:
