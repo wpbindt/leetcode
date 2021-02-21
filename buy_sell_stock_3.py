@@ -25,13 +25,15 @@ def max_profit(prices: List[int]) -> int:
 
     for k in range(1, 3):
         profit[k].append(0)
+        buy_sell_buy_max = -prices[0]
         for sell_price in prices[1:]:
+            buy_sell_buy_max = max(
+                buy_sell_buy_max,
+                profit[k - 1][len(profit[k]) - 1] - prices[len(profit[k]) - 1]
+            )
             profit[k].append(max(
                 profit[k][-1],
-                *(
-                    profit[k - 1][ix] - buy_price + sell_price
-                    for ix, buy_price in enumerate(prices[:len(profit[k])])
-                )
+                buy_sell_buy_max + sell_price
             ))
 
     return profit[2][-1]
