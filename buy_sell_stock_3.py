@@ -1,42 +1,40 @@
 from typing import List
 
-# two windows, one coming from left, one from right
-# move in the same way as in the one buy/sell solution, ---- this is not specific enough
-# what if we only move the one that currently has the lowest max profit?
-# should each iteration move the window only a bit, or complete the whole cycle?
 
-
-def max_profit(price: List[int]) -> int:
+def max_profit(prices: List[int]) -> int:
     """
     May buy and sell at most twice
+    Let p[i, k] be the max profit on k sales given price[:i+1]
+    Then:
+        - p[0, k] = 0 for all k
+        - p[i, 0] = 0 for all i
+        - p[i, k] = max(
+            p[i - 1, k],  # buy and sell k times in [:i]
+            p[j, k - 1] - price[j] + price[i]  # buy and sell k-1 times in [:j+1], then buy at j, sell at i
+            for j = 0..i
+          )
+
+    Naive caching implementation is O(n^2), which is too slow.
+    By keeping track of the maximum of profit[k - 1][ix] - prices[ix], can reduce to linear, probably
     """
-    buy_left = 0
-    sell_left = 0
-    left_max = 0
+    # profit[k][ix] := max profit with k+1 sales in [:ix+1]
+    profit = []
+    profit.append(len(prices) * [0])
+    profit.append([])
+    profit.append([])
 
-    buy_right = len(price) - 1
-    sell_right = len(price) - 1
-    right_max = 0
+    for k in range(1, 3):
+        profit[k].append(0)
+        for sell_price in prices[1:]:
+            profit[k].append(max(
+                profit[k][-1],
+                *(
+                    profit[k - 1][ix] - buy_price + sell_price
+                    for ix, buy_price in enumerate(prices[:len(profit[k])])
+                )
+            ))
 
-    while buy_right >= sell_left:
-        right_max = max(
-            right_max, 
-            price[sell_right] - price[buy_right]
-        )
-        left_max = max(
-            left_max, 
-            price[sell_left] - price[buy_left]
-        )
-        if left_max <= right_max:
-            if price[sell_left] < price[buy_left]:
-                buy_left = sell_left
-            sell_left += 1
-        else:
-            if price[sell_right] < price[buy_right]:
-                sell_right = buy_right
-            buy_right -= 1
-
-    return left_max + right_max
+    return profit[2][-1]
 
 
 assert max_profit([3, 3, 5, 0, 0, 3, 1, 4]) == 6
